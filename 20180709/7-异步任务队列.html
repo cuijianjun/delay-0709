@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+<script src="d3.js"></script>
+<script>
+  let queue = d3.queue()
+
+  //添加任务
+  queue.defer(function (a, b, cb) {
+    setTimeout(function () {
+      cd(null,a+b);
+    },500)
+  },12,44);
+  queue.defer(function (num, cb) {
+    setTimeout(function () {
+      cb(null,num *5)
+    },700)
+  },5);
+  //2.等待完成
+  queue.await(function (err, res1, res2) {
+    console.log(err);
+    console.log(res1,res2);
+  })
+</script>
+</body>
+</html>
