@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    html,body,svg{
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+<svg viewBox="-400 -400 800 800">
+  <path id="links" fill="none" stroke="gray"></path>
+</svg>
+</body>
+<script>
+  var points = 'a,b,c'.split(',').map(function (name,index,arr) {
+    return {
+      name:name,
+      color:'hsl(' + (360 * index /arr.length) + ',100%,60%'
+    };
+  });
+  var relation = 300;
+  var svg = document.querySelector('svg');
+  var Vector = window.Vector;
+
+  function random(min, max) {
+    return Math.round(min + (max-min) * Math.random());
+  }
+  points.forEach(function (points) {
+    var circle = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    var x= random(-400,400);
+    var y = random(-400,400);
+    circle.setAttribute('cx',x)
+    circle.setAttribute('cy',y)
+    circle.setAttribute('r',10)
+    circle.setAttribute('fill',point.color)
+  })
+</script>
+</html>
