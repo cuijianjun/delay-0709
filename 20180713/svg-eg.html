@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<?xml version="1.0"?>
+<svg width="200" height="200"
+    viewPort="0 0 120 120" version="1.1"
+    xmlns="http://www.w3.org/2000/svg">
+
+  <rect x="10" y="10" fill="red" width="100" height="100">
+    <animate attributeType="XML"
+             attributeName="x"
+             from="-100" to="120"
+             dur="10s"
+             repeatCount="indefinite"/>
+  </rect>
+
+</svg>
+
+
+<?xml version="1.0"?>
+<!--animate-->
+<svg width="120" height="120"
+     viewPort="0 0 120 120" version="1.1"
+     xmlns="http://www.w3.org/2000/svg">
+
+  <rect x="10" y="10" width="100" height="100">
+    <animate attributeType="XML"
+             attributeName="y"
+             from="-100" to="120"
+             dur="10s"
+             repeatCount="indefinite"/>
+    <animate attributeName="opacity"
+             from="1"
+             to="0"
+             begin="0s"
+             dur="3s"
+             repeatCount="indefinite"
+    />
+  </rect>
+
+</svg>
+
+<!--animateMotion-->
+<svg   width="120" height="120"  viewBox="0 0 120 120"
+       xmlns="http://www.w3.org/2000/svg" version="1.1"
+       xmlns:xlink="http://www.w3.org/1999/xlink" >
+
+  <!-- Draw the outline of the motion path in grey, along
+       with 2 small circles at key points -->
+  <path d="M10,110 A120,120 -45 0,1 110 10 A120,120 -45 0,1 10,110"
+        stroke="lightgrey" stroke-
+        fill="none" id="theMotionPath"/>
+  <circle cx="10" cy="110" r="3" fill="lightgrey"  />
+  <circle cx="110" cy="10" r="3" fill="lightgrey"  />
+
+  <!-- Here is a red circle which will be moved along the motion path. -->
+  <circle cx="0" cy="0" r="5" fill="red">
+
+    <!-- Define the motion path animation -->
+    <animateMotion dur="6s" repeatCount="indefinite">
+      <mpath xlink:href="#theMotionPath"/>
+    </animateMotion>
+  </circle>
+</svg>
+
+<!--animateTransform-->
+<svg   width="120" height="120"  viewBox="0 0 120 120"
+       xmlns="http://www.w3.org/2000/svg" version="1.1"
+       xmlns:xlink="http://www.w3.org/1999/xlink" >
+
+  <polygon points="60,30 90,90 30,90">
+    <animateTransform attributeName="transform"
+                      attributeType="XML"
+                      type="rotate"
+                      from="0 60 70"
+                      to="360 60 70"
+                      dur="1s"
+                      repeatCount="indefinite"/>
+  </polygon>
+</svg>
+
+<!--mpath-->
+<svg width="120" height="120"  viewBox="0 0 500 300"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink" >
+
+
+  <!-- Draw the outline of the motion path in blue, along
+          with three small circles at the start, middle and end. -->
+  <path id="path1" d="M100,250 C 100,50 400,50 400,250"
+        fill="none" stroke="blue" stroke-width="7.06"  />
+  <circle cx="100" cy="250" r="17.64" fill="blue"  />
+  <circle cx="250" cy="100" r="17.64" fill="blue"  />
+  <circle cx="400" cy="250" r="17.64" fill="blue"  />
+
+  <!-- Here is a triangle which will be moved about the motion path.
+       It is defined with an upright orientation with the base of
+       the triangle centered horizontally just above the origin. -->
+  <path d="M-25,-12.5 L25,-12.5 L 0,-87.5 z"
+        fill="yellow" stroke="red" stroke-width="7.06"  >
+    <!-- Define the motion path animation -->
+    <animateMotion dur="6s" repeatCount="indefinite" rotate="auto" >
+      <mpath xlink:href="#path1"/>
+    </animateMotion>
+  </path>
+</svg>
+</body>
+</html>
