@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>The ONE 智能评测系统</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+</head>
+
+<body>
+<script>
+  document.documentElement.style.fontSize = window.innerWidth / 7.5 + 'px';
+  window.onresize = function(e){
+    document.documentElement.style.fontSize = document.documentElement.offsetWidth / 7.5 + 'px';
+  }
+</script>
+<div class="k-loading">
+  <div class="loading-content">
+    <div class="line">
+      <div class="line1"></div>
+      <div class="line2"></div>
+      <div class="line3"></div>
+      <div class="line4"></div>
+      <div class="line5"></div>
+    </div>
+  </div>
+</div>
+<div class="play-container">
+  <div class="play-head">
+    <div class="head-info">
+      <div class="info-right" id="info-music">
+        <i class="iconfont icon-play" id="state-i"></i>
+        回播录音
+      </div>
+    </div>
+  </div>
+  <div class="play-main">
+    <div class="play-main-container" id="play-main-container">
+    </div>
+  </div>
+  <div class="result-play" id="result-play" align="center">
+    <div class="play-left" id="play-left"></div>
+    <div class="play-top">
+      <p class="p0 p-exam">考级预测通过率 <span id="play-rate"></span></p>
+      <p class="p-score p-judge" id="back-title">
+        总得分 <span id="play-score"></span>
+      </p>
+      <p class="p-rank">
+        排名
+        <span id="play-rank"></span>,
+        击败全国
+        <span id="play-beat-rate"></span>％的用户
+      </p>
+    </div>
+    <div class="play-bottom">
+      <!-- <img class="bottom-six" src="./image/six0.png" alt=""> -->
+      <div class="play-result"></div>
+      <div id="case-six" class="bottom-six"></div>
+      <div class="play-right" id="play-right">
+        <img src="./image/right.png" alt="">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="alert-error-note">
+  <div id="rhythm">
+    <i class="iconfont icon-kuaijin"></i>
+    <i class="iconfont icon-kuaitui"></i>
+    <span></span>
+  </div>
+  <div id="velocity">
+    <i class="iconfont icon-up"></i>
+    <i class="iconfont icon-down"></i>
+    <span></span>
+  </div>
+  <div id="accuracy">
+    <i class="iconfont icon-cuowu-copy"></i>
+    <span>音准</span>
+  </div>
+</div>
+<!-- device connect status -->
+<div class="device-status" id="device-status">
+  <div class="linked hide">
+    <span>已连琴</span>
+    <i class="i i-linked"></i>
+  </div>
+  <div class="notlinked">
+    <span>未连琴</span>
+    <i class="i i-linked"></i>
+  </div>
+</div>
+<script type="text/javascript"> (function (w) { w.frontjsConfig = {token: '574846630ed32a8c34cebcf422bff64f', behaviour: 15} })(window); </script>
+<script type="text/javascript" src="https://static.frontjs.com/dist/current/tracker.min.js" crossorigin="true"></script>
+</body>
+
+
+
+
+
+
+
+</html>

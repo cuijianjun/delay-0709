@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>js网页右上角滑出会自动消失的大幅广告效果</title>
+  <meta http-equiv="content-type" content="text/html;charset=gb2312">
+  <!--把下面代码加到<head>与</head>之间-->
+  <script type="text/javascript" language="javascript">
+    var time = 500;
+    var w = 0;
+    function addCount()
+    {
+      if(time>0)
+      {
+        time--;
+        w = w+5;
+      }
+      else
+      {
+        return;
+      }
+      if(w>278)//宽度
+      {
+        return;
+      }
+      document.getElementById("ads").style.display = "";
+      document.getElementById("ads").style.width = w+"px";
+      setTimeout("addCount()",30);
+    }
+    window.onload = function showAds()
+    {
+      addCount();
+      setTimeout("noneAds()",3000);//停留时间
+    }
+  </script>
+  <script type="text/javascript" language="javascript">
+    var T = 198;
+    var N = 188;//高度
+    function noneAds()
+    {
+      if(T>0)
+      {
+        T--;
+        N = N-5;
+      }
+      else
+      {
+        return;
+      }
+      if(N<0)
+      {
+        document.getElementById("ads").style.display = "none";
+        return;
+      }
+      document.getElementById("ads").style.width = N+"px";
+      setTimeout("noneAds()",30);
+    }
+  </script>
+</head>
+<body>
+<!--把下面代码加到<body>与</body>之间-->
+<div id="ads" style="margin:auto;display:none;position:absolute;width:200px;top:0px;right:0;height:200px;background-color:#d5282e;overflow:hidden;text-align:center;"><p align="center">欢迎访问 <a href="//www.jb51.net" target="_blank">脚本之家</a>丨 该特效收集于互联网，只为兴趣，不作商业用途。</p>
+</div>
+</body>
+</html>

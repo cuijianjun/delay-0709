@@ -1,0 +1,177 @@
+@charset 'utf-8';
+@import url('../../common_style/ppea_common.less');
+
+@page: pb_single;
+
+body{
+  height: 100%;
+  overflow: hidden;
+}
+.play-container{
+  position: relative;
+  background: url('../image/play_bg.png') center no-repeat #0b162e;
+  background-size: cover;
+  padding-top: 38/135rem;
+  height:100%;
+  width:100%;
+  overflow-x: hidden;
+  .play-head{
+    width:100%;
+    height:76/135rem;
+    .head-back{
+      width: 75/135rem;
+      height:76/135rem;
+      float:left;
+      line-height: 76/135rem;
+      text-align: center;
+      i{
+        font-size: 36/135rem;
+        color:#6d7382;
+      }
+    }
+    .head-info{
+      position: relative;
+      width: 6.5rem;
+      height:76/135rem;
+      border:1px solid #0b162e;
+      border-radius: 5/135rem;
+      background: url('../image/nav_wave_b.png') bottom no-repeat #1c233d;
+      background-size: contain;
+      margin:0 auto;
+      .info-left{
+        height:72/135rem;
+        position: absolute;
+        top:50%;
+        margin-top:-36/135rem;
+        left:36/135rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .left-head{
+          width: 56/135rem;
+          height: 56/135rem;
+          background: url('//static.1tai.com/images/labweb/avatar.png') center no-repeat;
+          background-size: contain;
+          margin-right: .1rem;
+          border-radius: 50%;
+        }
+        .left-word{
+          p{
+            color:#e5edfe;
+            font-size: 16/135rem;
+            &:last-child{
+              color:#fff;
+              font-weight: bold;
+              img{
+                width: 16/135rem;
+                height:16/135rem;
+                margin-top: -6/135rem;
+              }
+            }
+          }
+        }
+      }
+      .info-right{
+        z-index: 2;
+        display: inline-block;
+        line-height: 44/135rem;
+        position: absolute;
+        top:50%;
+        margin-top:-22/135rem;
+        right:40/135rem;
+        color: #fff;
+        font-size: 15/135rem;
+        line-height: .29rem;
+        .pop-case{
+          z-index: 2;
+          position: absolute;
+          left:-25/273rem;
+          top:105/273rem;
+          width:350/273rem;
+          height:80/273rem;
+          padding-left: 0.03rem;
+          line-height: 80/273rem;
+          text-align: center;
+          background:#fff;
+          border-radius: 10/273rem;
+          box-shadow: -2px 2px 15px #888888;
+          .case-triangle{
+            position: absolute;
+            top:-20/135rem;
+            left:18/135rem;
+            width:28/135rem;
+            height: 15/135rem;
+          }
+          span{
+            color: #000;
+          }
+        }
+        .iconfont{
+          width: 40/135rem;
+          height: 40/135rem;
+          border:2px solid #fff;
+          border-radius: 50%;
+          text-align: center;
+          color:#ffbc00;
+          padding-left: .02rem;
+          font-size: 22/135rem;
+          display: inline-block;
+          margin-right: .05rem;
+          line-height: .28rem;
+        }
+        .icon-zanting{
+          padding-left: 0;
+        }
+      }
+      .info-sort0{
+        right:36/135rem;
+      }
+    }
+  }
+  .play-main{
+    position: absolute;
+    left:0;
+    right: 0;
+    bottom:0;
+    top:0;
+    margin:0 auto;
+    margin-top:125/135rem;
+    margin-left: 0.51rem;
+    margin-right: 0.51rem;
+    border-bottom: none;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    .svg-page{
+      text-align: center;
+      object{
+        border-radius: 6/135rem;
+      }
+    }
+    .play-main-container{
+      min-height: 1000px;
+      background: #fff;
+      border-radius: 6/135rem;
+    }
+  }
+  .result-play{
+    #namespace .result-play();
+  }
+}
+.connect{
+  position: absolute;
+  right:20/135rem;
+  top:15/135rem;
+  width: 66/135rem;
+  height:26/135rem;
+  background: url('../image/connect.png') center no-repeat;
+  background-size:cover;
+}
+.unconnect{
+  position: absolute;
+  right:20/135rem;
+  top:15/135rem;
+  width: 61/135rem;
+  height:14/135rem;
+  background: url('../image/unconnect.png') center no-repeat;
+  background-size:cover;
+}
