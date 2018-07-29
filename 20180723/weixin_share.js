@@ -1,100 +1,203 @@
 import $ from 'jquery';
 import EventEmitter from 'event-emitter-es6';
 import utils from 'lib/kutils.js';
-import {parseUrlParams, generateMixed} from 'lib/utils';
+import { parseUrlParams } from 'lib/utils';
 import Musvg from 'lib/musvg';
 import native from 'lib/native';
 import playCommon from '../common_style/play-common-functions.js';
 import 'assets/styles/reset.less';
 import 'assets/styles/iconfont.less';
-import './less/wexin_share.less';
-import { doPOSTJson, doGET } from 'lib/server-api';
+import './less/playback.less';
+import bg from './image/Medal.png';
 
-class Wexin_share {
+class PlaybackApp extends EventEmitter {
   constructor() {
+    super();
     let urlParams = parseUrlParams();
     this.recordId = urlParams.record_id;
-    wx.config({
-      debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-      appId: '', // 必填，公众号的唯一标识
-      timestamp: '', // 必填，生成签名的时间戳
-      nonceStr: '', // 必填，生成签名的随机串
-      signature: '', // 必填，签名
-      jsApiList: [
-        'onMenuShareTimeline',
-        'onMenuShareAppMessage'
-      ] // 必填，需要使用的JS接口列表
+    this.appId = urlParams.app_id;
+    this.userId = urlParams.user_id;
+    localStorage.userToken = 'xiaoyezilab'; // TODO: fake server
+
+    console.log('app_id = %s, user_id = %s, score_id = %s', this.appId, this.userId, this.scoreId);
+
+    this.svgContainer = document.getElementById('play-content');
+    this.musvg = new Musvg(this.svgContainer, {
+      pageClassName: 'svg-page',
     });
-    wx.ready(function () {
-      wx.onMenuShareTimeline({
-        title: '', // 分享标题
-        link: '', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-        imgUrl: '', // 分享图标
-        success: function () {
-          // 用户点击了分享后执行的回调函数
-        }
-      });
-      wx.onMenuShareAppMessage({
-        title: '', // 分享标题
-        desc: '', // 分享描述
-        link: '', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-        imgUrl: '', // 分享图标
-        type: '', // 分享类型,music、video或link，不填默认为link
-        dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-        success: function () {
-          // 用户点击了分享后执行的回调函数
-        },
-        cancle: function () {
-          // 用户取消点击了分享后执行的回调函数
-        }
-      });
-    });
-    wx.error(function (res) {
-      // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
-    });
+
+    this.device = null;
+    this.isListening = false;
+
+    // on document ready
     $(() => {
-      this.loadRecord(this.recordId);
+      if (this.recordId) {
+        this.loadRecord(this.recordId);
+      }
       this._registerEvents();
     });
   }
+
   _registerEvents() {
-    let playing = false, currentAudio = null;
-    $('.header').on('click', function () {
-      let $audio = $(this).find('audio');
-      // if (playing) {
-      //   playing = false;
-      //   currentAudio.pause();
-      //   currentAudio.currentTime = 0;
-      //   currentAudio = null;
-      // }
-      playing = true;
-      currentAudio = $audio.get(0);
-      currentAudio.play();
+    // animate
+    $('#score-content').on('click', '#score-right', function (e) {
+      console.log('score-right');
+      $('#score-content').animate({'left': '600'}, 500);
+      $('#left-slip').fadeIn(1000);
+      $('#score-dialog').fadeOut(1000);
+    });
+    $('body').on('click', '.mask', function (e) {
+      console.log('mask');
+      $('#score-content').animate({'left': '600'}, 500);
+      $('#left-slip').fadeIn(1000);
+      $('#score-dialog').fadeOut(1000);
+    });
+
+    $('body').on('click', '.left', function (e) {
+      console.log('icon-left');
+      $('#score-content').animate({'left': '50%'}, 500);
+      $('#left-slip').fadeOut(500);
+      $('#score-dialog').fadeIn(700);
+    });
+    this.musvg.on('device-changed', (port) => {
+      this.device = port;
+      this.device.enableVirtualDest();
+
+      this.emit('onDeviceChange', {
+        supportsInput: this.device.supportsInput,
+        supportsSound: this.device.supportsSound,
+      });
+
+      if (!this.device.supportsInput) {
+        if (this.isListening) {
+          this.stopListenMusic();
+          this.isListening = false;
+        }
+      }
+    });
+    // stop play score event
+    this.musvg.on('userPlayer.end', () => {
+      this._onStopListen();
+    });
+    // score scroll event
+    this.musvg.on('scroll', (obj) => {
+      let scaleRate = this.svgContainer.clientWidth * 0.85 / 595;
+      let scrollTop = (obj.pos * scaleRate) + obj.element.offsetTop - (80 * scaleRate);
+      playCommon.scrollScoreAuto($('.play-container .content'), scrollTop);
+    });
+
+    // show result error
+    this.musvg.on('showNoteError', (obj) => {
+      playCommon.showScoreErrorNote(obj, $('.alert-error-note'), ((0.5 + 0.45) / 7.5));
+    });
+
+    $('#playback').click(() => {
+      if (!this.isListening) {
+        this.startListen();
+      } else {
+        this.stopListen();
+      }
+    });
+  };
+
+  loadRecord(recordId) {
+    // load result
+    this.musvg.loadResult(recordId).then((result) => {
+      let score = result.score;
+      $('#play-rank').html(score.rank);
+      $('#play-score').html(score.final.toFixed(1));
+      $('#play-beat-rate').html((score.beat_rate * 100).toFixed(1));
+      this.emit('onLoadRecord', {
+        id: result.id.toString(),
+        score_id: result.score_id.toString(),
+        score: {
+          final: result.score.final,
+          pitch: result.score.pitch,
+          rhythm_speed: result.score.rhythm_speed,
+          complete: result.score.complete,
+          technique: result.score.technique,
+          expressive: result.score.expressive,
+          difficulty: result.score.difficulty,
+        },
+      });
+      // show score
+      let domFragment = `
+        <div class="score-top">
+        <img src="${bg}">
+        <div class="score">
+        <div class="score-number">${score.final.toFixed(1)}</div>
+        <div class="score-text">总得分</div></div></div>
+        <div class="score-center">
+        <div class="sum">
+        <div class="single-standard accuracy">
+        <div class="sum-top">${score.pitch.toFixed(1)}</div>
+        <div class="sum-bottom">音准</div></div>
+        <div class="verticaLine"></div>
+        <div class="single-standard rhythm">
+        <div class="sum-top">${score.rhythm_speed.toFixed(1)}</div>
+        <div class="sum-bottom">节奏</div></div>
+        <div class="verticaLine"></div>
+        <div class="single-standard integrity">
+        <div class="sum-top">${score.complete.toFixed(1)}</div>
+        <div class="sum-bottom">完整性</div></div></div></div>
+        <div class="score-bottom">
+        <div class="score-right" id="score-right">
+        <i class="iconfont icon-right-arrow"></i>
+        </div>
+        </div>`;
+      $('#score-content').html(domFragment);
+    }).catch(e => {
+      console.error(e);
+      this.emit('onError', {
+        type: 'load_record',
+      });
+    }).finally(() => {
+      utils.hideLoading();
+      $('.svg-page').css('text-align', 'center');
+      $(this.svgContainer).css({
+        'overflowY': 'scroll'
+      });
     });
   }
-  async getConfig() {
-    let jsapi_ticket = null;
-    let time = +new Date() / 1000;
-    if (localStorage['jsapi_ticket_expire_time'] > time && localStorage['jsapi_ticket']) {
-      jsapi_ticket = localStorage['jsapi_ticket'];
+
+  startListen() {
+    if (this.isListening) {
+      return;
     }
-    let access_token = this.getWxAccessToken();
-    let url = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=' + access_token + '&type=jsapi';
-    jsapi_ticket = await this.get_jsapi_ticket();
-    localStorage['jsapi_ticket'] = jsapi_ticket;
-    localStorage['jsapi_ticket_expire_time'] = time + 7000;
-    let nocestr = utils.generateMixed(16);
-    let signature = 'jsapi_ticket=' +
-      'sM4AOVdWfPE4DxkXGEs8VMCPGGVi4C3VM0P37wVUCFvkVAy_90u5h9nbSlYy3-Sl-HhTdfl2fzFy1AOcHKP7qg&noncestr=' +
-      'Wm3WZYTPz0wzccnW&timestamp=1414587457&url=http://mp.weixin.qq.com?params=value';
-    signature = sha1(signature);// eslint-disable-line
+    // if (!this.device || !this.device.supportsSound) {
+    //   utils.alert('该功能需在连接The ONE智能设备时使用');
+    //   this.emit('onError', {
+    //     type: 'no_device',
+    //   });
+    //   return;
+    // }
+    $('#state-i').removeClass('icon-shipinbofang').addClass('icon-zanting-copy');
+    $('#score-dialog').animate({'left': '600'}, 500);
+    $('#left-slip').fadeIn(1000);
+    this.musvg.startListenResult();
+    this.emit('onStartListen');
+    this.isListening = true;
   }
 
-  async get_jsapi_ticket(url) {
-    let resp = await doGET(url);
-    let jsapi_ticket = resp.data.ticket;
-    return jsapi_ticket;
+  stopListen() {
+    if (!this.isListening) {
+      return;
+    }
+    this.musvg.stopListenResult();
+    this._onStopListen();
+    this.emit('onStopListen');
+  }
+
+  _onStopListen() {
+    $('#state-i').removeClass('icon-zanting-copy').addClass('icon-shipinbofang');
+    this.isListening = false;
   }
 }
 
-let share = new Wexin_share();
+// the app singleton
+let theApp = new PlaybackApp();
+
+// init native bridge
+native.init(theApp);
+
+window.app = theApp;
