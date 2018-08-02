@@ -2,15 +2,15 @@
   <div>
     <mt-header fixed title="固定在顶部"></mt-header>
     <mt-tabbar v-model="selected">
-      <mt-tab-item id="外卖">
+      <mt-tab-item id="首页">
         <img slot="icon" src="./assets/img/callme.png">
         首页
       </mt-tab-item>
-      <mt-tab-item id="订单">
+      <mt-tab-item id="会员">
         <img slot="icon" src="./assets/img/feedback.png">
         会员
       </mt-tab-item>
-      <mt-tab-item id="发现">
+      <mt-tab-item id="购物车">
         <img slot="icon" src="./assets/img/goodShow.png">
         购物车
       </mt-tab-item>
@@ -24,7 +24,14 @@
 <script>
 export default {
   data () {
-    return {}
+    return {
+      selected: ''
+    }
+  },
+  watch: {
+    selected (newV, oldV) {
+      console.log(newV)
+    }
   }
 }
 </script>
