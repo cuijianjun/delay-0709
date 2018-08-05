@@ -1,0 +1,33 @@
+doctype html
+<!--[if IE 8]><html class='ie8'><![endif]-->
+html
+    head
+        meta(charset="utf-8")
+        title imooc  study
+    body
+        style.
+            body {color:red}
+        script.
+            var a= 13;
+        //h1.title(id='a',class='b') imooc jade study
+            a(href='http://www.baidu.com',title='hello')
+        input(name="age",value="b",type="checkbox")
+        p
+           | 1.12213
+           | 2.2322rwer
+           strong ff
+           | 4
+           | werwrw
+           | werw
+        h2 转义
+        - var data = 'text'
+        - var htmlData = '<script>alert(1)</script>'
+        p #{data}
+        p #{htmlData}
+        p !{htmlData}
+        p=data
+        p=htmlData
+        p!=htmlData
+        p \#{htmlData}
+        input(value=bb)
+<html>
