@@ -6,13 +6,16 @@
 </head>
 <body>
 <script>
-  // es7
   let json = {}
-  Object.observe(json,()=>{
-    alert('数据变化了')
+  let p = new Proxy(json,{ // 整个vue的核心   computed
+    get(){
+      alert('有人获取东西')
+    },
+    set(){
+      alert('有人要设置东西');
+    }
   })
-
-  json.a = 12
+  alert(p.a)
 </script>
 </body>
 </html>

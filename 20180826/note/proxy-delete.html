@@ -22,12 +22,15 @@
     has(target,key){
       console.log(target,key);
     },
-    deleteProperty(){
-
+    deleteProperty(target,key){
+      console.log(target,key);
+      throw new Error('read only')
     }
   })
 
-  alert('c' in p)
+  console.log(p);
+  delete p.a
+  console.log(p);
 </script>
 </body>
 </html>

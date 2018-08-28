@@ -19,17 +19,15 @@
         throw new Error('invaild value,only accept 0 -- 100')
       }
     },
-    has(){
-
+    has(target,key){
+      console.log(target,key);
     },
     deleteProperty(){
 
     }
   })
 
-  //p.a = 77
-  //p.a = 105
-  alert(p.a)
+  alert('c' in p)
 </script>
 </body>
 </html>

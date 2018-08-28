@@ -2,9 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <title>Title</title>
 </head>
 <body>
-$END$
+<script>
+  // es7
+  let json = {}
+  Object.observe(json,()=>{
+    alert('数据变化了')
+  })
+
+  json.a = 12
+</script>
 </body>
 </html>
