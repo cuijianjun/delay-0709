@@ -1,5 +1,16 @@
-import './subPageA'
-import './subPageB'
+import * as _ from 'lodash'
+var page = 'subpageA'
+if(page === 'subpageA'){
+  import(/*webpackChunkName: 'subpageA'*/'./subPageA').then(function (subpageA) {
+    console.log(subpageA);
+  })
+}else
 
-import  * as _ from  'lodash'
+if(page === 'subpageB'){
+  import(/*webpackChunkName: 'subpageB'*/'./subpageB').then(function (subpageB) {
+    console.log(subpageB);
+  })
+}
+
+
 export default 'pageA'

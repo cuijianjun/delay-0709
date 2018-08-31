@@ -54,6 +54,7 @@
   }
 
   function render(_this){
+    debugger
     this.$el.parentNode.replaceChild(this.$old_el, this.$el);
     this.$el=this.$old_el;
     this.$old_el=this.$old_el.cloneNode(true);
