@@ -7,6 +7,8 @@ arr.includes(8)
 
 console.log('new set ', new Set(arrB));
 
+console.log($('a'));
+
 function* d() {
 
 }

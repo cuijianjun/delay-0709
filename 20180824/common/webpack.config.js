@@ -1,10 +1,12 @@
 var webpack = require('webpack')
 var path = require('path')
+
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 module.exports = {
   entry:{
-    'pageA': './pageA',
-    'pageB': './pageB',
-    'vendor': ['lodash']
+    'pageA': './src/pageA',
+    'pageB': './src/pageB'
   },
   output:{
     path: path.resolve(__dirname,'./dist'),
@@ -13,9 +15,9 @@ module.exports = {
     chunkFilename:'[name].chunk.js'
   },
   plugins:[
+    new BundleAnalyzerPlugin(),
     new webpack.optimize.CommonsChunkPlugin({
-      async: 'async-common',
-      chuildren: true,
+      names:['vendor'],
       minChunks: 2,
     })
   ]

@@ -21,6 +21,7 @@ module.exports = {
       jquery$:path.resolve(__dirname,'src/libs/jquery.min.js')
     }
   },
+  devtool:'eval',
   module:{
     rules:[
       {
@@ -129,7 +130,12 @@ module.exports = {
   },
   devServer:{
     port:9001,
+    hot:true,
     historyApiFallback:{
+      htmlAcceptHeaders:[
+        'text/html',
+        'application/xhtml-html'
+      ],
       rewrites:[
         {
           from: /^\/(\w+\/?)(\w+)/,
