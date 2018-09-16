@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <title>vue基本使用</title>
-  <script src="../vue基本使用/vue.js" charset="utf-8"></script>
+  <script src="../1.vue基本使用/vue.js" charset="utf-8"></script>
   <script>
     window.onload=function (){
       let vm=new Vue({
         el: '.box',
         data: {a: 0}
       });
-
+      // alert(vm.a)
       document.onclick=function (){
         vm.a++;
       };

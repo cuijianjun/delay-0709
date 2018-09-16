@@ -7,9 +7,10 @@
   <script>
     //class Ass extends Proxy{}
     // Uncaught TypeError: Class extends value does not have valid prototype property undefined
-    console.log(Object.prototype);
-    console.log(Array.prototype);
-    console.log(Proxy.prototype);
+
+    // console.log(Object.prototype);
+    // console.log(Array.prototype);
+    // console.log(Proxy.prototype);
 
     Proxy.prototype = Object.prototype
     class Ass extends Proxy{

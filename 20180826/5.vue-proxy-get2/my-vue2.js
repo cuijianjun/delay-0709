@@ -4,6 +4,7 @@ class MyVue extends Proxy{ // Object Array ==== 没有合法的原型
   constructor(options){
     let _this;
     let data = options.data|| {}
+    // _this = this;
     super(data,{
 
       get(target,key){
@@ -16,16 +17,16 @@ class MyVue extends Proxy{ // Object Array ==== 没有合法的原型
         }
       },
       set(target,key,val){
-        if(key.startsWith('$')){
-          _this[key] = val
-        }else{
-          target[key] = val
-        }
+        // if(key.startsWith('$')){
+        //   _this[key] = val
+        // }else{
+        //   target[key] = val   //外部
+        // }
       },
       deleteProperty(){},
       has(){}
     });
-     _this = this;
+     // _this = this;
      this.$el = document.querySelector(options.el)
      this.$data = data
      console.log(this);
