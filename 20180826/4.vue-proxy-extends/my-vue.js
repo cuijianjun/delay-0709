@@ -11,7 +11,7 @@ class MyVue extends Proxy{ // Object Array ==== 没有合法的原型
         // p.a=xxx             √
         // json.a=xxx          ×
         // */
-        console.log(target.$data);
+        console.log(target);
         if(key in target.$data){
           return target.$data[key]
         }else{

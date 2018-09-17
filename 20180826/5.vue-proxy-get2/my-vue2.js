@@ -17,19 +17,19 @@ class MyVue extends Proxy{ // Object Array ==== 没有合法的原型
         }
       },
       set(target,key,val){
-        // if(key.startsWith('$')){
-        //   _this[key] = val
-        // }else{
-        //   target[key] = val   //外部
-        // }
+        if(key.startsWith('$')){
+          _this[key] = val
+        }else{
+          target[key] = val   //外部
+        }
       },
       deleteProperty(){},
       has(){}
     });
-     // _this = this;
+     _this = this;
      this.$el = document.querySelector(options.el)
      this.$data = data
      console.log(this);
-     // 回调地狱，出不去了
+     // 死循环，出不去了
   }
 }
