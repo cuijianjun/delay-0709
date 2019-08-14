@@ -1,7 +1,15 @@
 <template>
   <div id="app">
     <template>
-      <k-input></k-input>
+      {{value}}
+      <k-form :model="model" :rules="rules" >
+        <k-form-item label="用户名" prop="username">
+          <k-input v-model="model.username"></k-input>
+        </k-form-item>
+        <k-form-item label="密码" prop="password">
+          <k-input v-model="model.password" type="password"></k-input>
+        </k-form-item>
+      </k-form>
       <div>
         <h3>Element表单</h3>
         <hr>
@@ -23,10 +31,22 @@
 
 <script>
 import KInput from './components/Input';
+import KFormItem from './components/FormItem.vue';
+import KForm from './components/Form.vue';
+
 export default {
   name: 'app',
+  provide() {
+    return {
+      someVal: '来自app.vue'
+    }
+  },
   components: {
-    KInput
+    KInput,
+    KFormItem,
+    KForm
+  },
+  methods: {
   },
   data() {
     return {
