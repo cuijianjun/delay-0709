@@ -105,3 +105,24 @@ class Watcher {
     this.cb.call(this.vm, this.vm[this.key]);
   }
 }
+
+// //1：创建Ajax对象
+// var xhr = window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject('Microsoft.XMLHTTP');// 兼容IE6及以下版本
+// //2：配置 Ajax请求地址
+// xhr.open('get','index.xml',true);
+// //3：发送请求
+// xhr.send(null); // 严谨写法
+// //4:监听请求，接受响应
+// xhr.onreadysatechange=function(){
+//   if(xhr.readySates==4&&xhr.status==200 || xhr.status==304 )
+//     console.log(xhr.responsetXML)
+// }
+
+var xhr = new window.XMLHttpRequest()? new XMLHttpRequest(): new ActiveXObject('Microsoft.XMLHTTP');
+xhr.open('get', 'index.xml', true);
+xhr.send(null);
+xhr.onreadystatechange = function () {
+  if(xhr.readyState === 4 && xhr.status === 200) {
+    console.log('xhr.responsetXML')
+  }
+}
